@@ -32,14 +32,13 @@ class Test(Resource):
         # and access it like this : args.list. We can index by doing args.list[index]
 
         parser = reqparse.RequestParser()
-        parser.add_argument('paths',action='append' )
+        parser.add_argument('paths',action='append')
         args = parser.parse_args()
         print(args)
-
         paths=list(args.input)
+        print("PATHS",paths)
         # del edit_process[:3]
 
-        # Command to run: python neural_style_transfer.py "C:\Users\Kashyap Murali\Deep_Learning\Style-Transfer-Flask\willy_wonka_old.jpg" "C:\Users\Kashyap Murali\Deep_Learning\Style-Transfer-Flask\style2.jpg results/my_result"
         z = {'output': "test"}  # Formatting this is important. If you don't format it right,
         return z
 
