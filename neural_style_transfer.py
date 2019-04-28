@@ -50,8 +50,9 @@ import time
 import argparse
 from keras.applications import vgg19
 from keras import backend as K
-
+import boto3
 import os
+import io
 import warnings
 
 def save_img(path,
@@ -66,7 +67,11 @@ def save_img(path,
         warnings.warn('The JPG format does not support '
                       'RGBA images, converting to RGB.')
         img = img.convert('RGB')
-    img.save(path, format=file_format, **kwargs)
+    to_save = io.BytesIO()
+    s3 = boto3.resource('s3')
+    img.save(to_save, format="PNG", **kwargs)
+    s3.Bucket('style-transfer-output-test').put_object(Key=path, Body=to_save.getvalue())
+
 
 parser = argparse.ArgumentParser(description='Neural style transfer with Keras.')
 parser.add_argument('base_image_path', metavar='base', type=str,
