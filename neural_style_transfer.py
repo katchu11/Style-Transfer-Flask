@@ -41,16 +41,32 @@ keeping the generated image close enough to the original one.
 # References
     - [A Neural Algorithm of Artistic Style](http://arxiv.org/abs/1508.06576)
 '''
-
 from __future__ import print_function
-from keras.preprocessing.image import load_img, save_img, img_to_array
+import keras
+from keras.preprocessing.image import load_img, img_to_array, array_to_img
 import numpy as np
 from scipy.optimize import fmin_l_bfgs_b
 import time
 import argparse
-
 from keras.applications import vgg19
 from keras import backend as K
+
+import os
+import warnings
+
+def save_img(path,
+             x,
+             data_format=None,
+             file_format=None,
+             scale=True, **kwargs):
+    if data_format is None:
+        data_format = K.image_data_format()
+    img = array_to_img(x, data_format=data_format, scale=scale)
+    if img.mode == 'RGBA' and (file_format == 'jpg' or file_format == 'jpeg'):
+        warnings.warn('The JPG format does not support '
+                      'RGBA images, converting to RGB.')
+        img = img.convert('RGB')
+    img.save(path, format=file_format, **kwargs)
 
 parser = argparse.ArgumentParser(description='Neural style transfer with Keras.')
 parser.add_argument('base_image_path', metavar='base', type=str,

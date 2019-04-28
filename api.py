@@ -34,11 +34,8 @@ class Test(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('paths',action='append')
         args = parser.parse_args()
-        print(args)
-        paths=list(args.input)
+        paths=list(args.paths)
         print("PATHS",paths)
-        # del edit_process[:3]
-
         z = {'output': "test"}  # Formatting this is important. If you don't format it right,
         return z
 
