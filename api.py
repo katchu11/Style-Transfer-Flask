@@ -36,7 +36,7 @@ class Test(Resource):
         args = parser.parse_args()
         paths=list(args.paths)
         print("PATHS",paths)
-        function_to_call = "python neural_style_transfer.py"+ " " + paths[0]+" " +paths[1]+" " + paths[2]+" --iter 1"
+        function_to_call = "python neural_style_transfer.py"+ " " + paths[0]+" " +paths[1]+" " + paths[2]+" --iter 10"
         os.system(function_to_call)
         z = {'output': "SUCCESS"}  # Formatting this is important. If you don't format it right,
         return z
